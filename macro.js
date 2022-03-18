@@ -10,6 +10,7 @@ var resolveTailwindConfig = _interopDefault(require('tailwindcss/lib/util/resolv
 var defaultTailwindConfig = _interopDefault(require('tailwindcss/stubs/defaultConfig.stub'));
 var flatMap = _interopDefault(require('lodash.flatmap'));
 var template = _interopDefault(require('@babel/template'));
+var sortMediaQueries = _interopDefault(require('sort-css-media-queries'));
 var cleanSet = _interopDefault(require('clean-set'));
 var timSort = _interopDefault(require('timsort'));
 var babelPluginMacros = require('babel-plugin-macros');
@@ -7821,9 +7822,15 @@ var getStyleData = (function (classes, ref) {
       pieces: pieces,
       state: state
     }));
+    var sorted = Object.keys(result).sort(function (a, b) {
+      return sortMediaQueries(a, b);
+    }).reduce(function (obj, key) {
+      obj[key] = result[key];
+      return obj;
+    }, {});
     state.isDev && state.configTwin.debug && debug(classNameRaw, style);
     classesMatched.push(classNameRaw);
-    return result;
+    return sorted;
   }, {});
   return {
     // TODO: Avoid astifying here, move it outside function

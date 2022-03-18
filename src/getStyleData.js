@@ -1,4 +1,5 @@
 import deepMerge from 'lodash.merge'
+import sortMediaQueries from 'sort-css-media-queries'
 import { throwIf, isEmpty, getTheme } from './utils'
 import { getProperties } from './getProperties'
 import getPieces from './utils/getPieces'
@@ -197,10 +198,19 @@ export default (
       addVariants({ results, style, pieces, state })
     )
 
+    const sorted = Object.keys(result)
+      .sort((a, b) => {
+        return sortMediaQueries(a, b)
+      })
+      .reduce((obj, key) => {
+        obj[key] = result[key]
+        return obj
+      }, {})
+
     state.isDev && state.configTwin.debug && debug(classNameRaw, style)
 
     classesMatched.push(classNameRaw)
-    return result
+    return sorted
   }, {})
 
   return {

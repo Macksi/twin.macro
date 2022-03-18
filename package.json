@@ -67,6 +67,7 @@
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
     "postcss": "^8.1.8",
+    "sort-css-media-queries": "^2.0.4",
     "string-similarity": "^4.0.3",
     "tailwindcss": "^2.2.7",
     "timsort": "^0.3.0"
